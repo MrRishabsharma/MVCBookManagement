@@ -1,0 +1,77 @@
+﻿
+@using PagedList.Mvc;
+@using PagedList;
+
+@model IPagedList<MVctutorial.Models.Bookstore>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_EmpHeader.cshtml";
+}
+
+<h2>Index</h2>
+<button id="btnsubmit" class="bttn btn-success">Show Details</button>
+
+@Html.ActionLink("Create", "Create")
+<div id="btnmaincontent">
+    <table border="1" class="table" id="products">
+        @if (Model != null && Model.Any())
+        {
+            <tr>
+                <th>Book No.</th>
+                <th>Book Name</th>
+                <th>Book Author</th>
+                <th>Book Price</th>
+                <th>Book Soldate</th>
+            </tr>
+
+            foreach (var book in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(item => book.Bookid)</td>
+                    <td>@Html.DisplayFor(item => book.Bookname)</td>
+                    <td>@Html.DisplayFor(item => book.Author)</td>
+                    <td>@Html.DisplayFor(item => book.Price)</td>
+                    <td>@book.Soldate.ToString("dd-MM-yyyy")</td>
+                </tr>
+            }
+            <tr>
+                <td>
+                    @Html.ActionLink("Update", "Intial")
+
+                </td>
+            </tr>
+        }
+        else
+        {
+            <tr>
+                <td colspan="5">No Records Found!</td>
+            </tr>
+        }
+    </table>
+</div>
+<div>
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+</div>
+<script src="~/Scripts/jquery-3.7.1.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/modernizr.js"></script>
+<script>
+    $(document).ready(function ()
+    {
+        debugger;
+        if (sessionStorage.getItem("contentVisible") === "true") {
+            $('#btnmaincontent').show(); 
+        } else {
+            $('#btnmaincontent').hide();
+        }
+
+        $('#btnsubmit').click(function ()
+        {
+            debugger;
+            $('#btnmaincontent').toggle(1000);
+            const isVisible = $('#btnmaincontent').is(":visible");
+            sessionStorage.setItem("contentVisible", isVisible);
+        });
+    });
+</script>

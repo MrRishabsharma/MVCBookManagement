@@ -1,0 +1,22 @@
+﻿@model IEnumerable<MVctutorial.Models.Products>
+
+<h2>Products List</h2>
+
+<td>@Html.ActionLink("Create New", "Create")</td>
+<table border="1" width="100%">
+
+    <th>Products ID</th>
+    <th>Products Name</th>
+    <th>Products Price</th>
+    <th>View Details</th>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.ProductID</td>
+            <td>@item.Name</td>
+            <td>@item.Price</td>
+            <td>@Html.ActionLink("Details", "Details", new { id = item.ProductID })</td>
+            <td>@Html.ActionLink("Update", "Update", new { id = item.ProductID })</td>
+        </tr>
+    }
+</table>

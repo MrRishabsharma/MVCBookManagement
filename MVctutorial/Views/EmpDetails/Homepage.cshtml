@@ -1,0 +1,69 @@
+﻿@model IEnumerable<MVctutorial.Models.EmpDetails>
+@{
+    ViewBag.Title = "Homepage";
+    Layout = "~/Views/Shared/_EmpHeader.cshtml";
+}
+
+<h2>Homepage</h2>
+
+<table class="table table-dark table-hover">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Emp_no)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Emp_name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Emp_phone)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Emp_Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Emp_Salary)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Emp_Department)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Emp_Join_dt)
+        </th>
+
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Emp_no)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Emp_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Emp_phone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Emp_Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Emp_Salary)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Emp_Department)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Emp_Join_dt)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Emp_no }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Emp_no }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Emp_no })
+            </td>
+        </tr>
+
+
+
+
+    }
+</table>

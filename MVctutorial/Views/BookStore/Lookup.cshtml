@@ -1,0 +1,69 @@
+﻿@model List<MVctutorial.Models.Bookstore>
+@{
+    ViewBag.Title = "Lookup";
+    Layout = "~/Views/Shared/_EmpHeader.cshtml";
+}
+
+<h2>Lookup</h2>
+<div id="btnmaincontent">
+    <table border="1" class="table" id="products">
+
+        @if (Model != null && Model.Any())
+        {
+            <tr>
+                <th>Select</th>
+                <th>Book No.</th>
+                <th>Book Name</th>
+                <th>Book Author</th>
+                <th>Book Price</th>
+                <th>Book Soldate</th>
+            </tr>
+
+            foreach (var book in Model)
+            {
+                <tr>
+                    <td><input type="radio" name="radDesignationId" id="radDesignationId" value="@book.Bookid"></td>
+                    <td>@Html.DisplayFor(item => book.Bookid)</td>
+                    <td>@Html.DisplayFor(item => book.Bookname)</td>
+                    <td>@Html.DisplayFor(item => book.Author)</td>
+                    <td>@Html.DisplayFor(item => book.Price)</td>
+                    <td>@book.Soldate.ToString("dd-MM-yyyy")</td>
+
+
+
+
+
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="5">No Records Found!</td>
+            </tr>
+        }
+    </table>
+    <input type="button" value="OK" id="btnsubmit" />
+    &nbsp;&nbsp;&nbsp;
+    <input type="button" value="Cancel" onclick="window.close()" />
+</div>
+
+<script src="~/Scripts/jquery-3.7.1.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/modernizr.js"></script>
+<script>
+    $(document).ready(function () {
+
+        $('#btnsubmit').click(function () {
+            var selectedRadio = $("input[name='radDesignationId']:checked");
+            if (selectedRadio.length > 0) {
+                var selectedValue = selectedRadio.val();
+
+                window.opener.document.getElementById("Bookid").value = selectedValue;
+                window.close();
+            } else {
+                alert("Please select a book.");
+            }
+        });
+    });
+</script>

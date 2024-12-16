@@ -1,0 +1,62 @@
+﻿@model MVctutorial.Models.Bookstore
+
+@{
+    ViewBag.Title = "Intial";
+    Layout = "~/Views/Shared/_EmpHeader.cshtml";
+}
+
+<h2>Intial</h2>
+
+@using (Html.BeginForm("Intial", "BookStore", FormMethod.Post))
+{
+    <div id="btnmaincontent">
+        <table border="1" class="table" id="products">
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.Bookid, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.TextBoxFor(model => model.Bookid, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.Raw("<img class=\"clsSearch\" id=\"imgbtn\"  alt=\"Search\" src=\"/Content/Search.png\" WIDTH=\"17\" HEIGHT=\"12\" style=\"cursor:pointer;\">")
+
+
+
+                    @Html.ValidationMessageFor(model => model.Bookid, "", new { @class = "text-danger" })
+
+                </td>
+            </tr>
+
+
+        </table>
+
+    </div>
+
+    <br />
+    <center>
+        <input TYPE="submit" name="btnSubmit" value="Next" class="clsButton">&nbsp;&nbsp; &nbsp;
+        <input TYPE="reset" name="btnClear" value="Clear" class="clsButton" onclick="this.form.reset(); return false;">&nbsp; &nbsp; &nbsp;
+    </center>
+
+
+
+
+
+}
+<script src="~/Scripts/jquery-3.7.1.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/modernizr.js"></script>
+<script>
+    $(function () {
+
+        $("#imgbtn").click(function ()
+        {
+            var url = '@Url.Action("Lookup", "BookStore")?id=' + document.getElementById("Bookid").value;
+            window.open(url, "", "width=750,height=500,resizable=yes,status=yes,scrollbars=yes,top=0,left=0");
+            return false;
+        });
+
+        $("#btnSubmit").click(function ()
+        {
+           '@Url.Action("Update","BookStore")?id = ' + document.getElementById("Bookid").value;
+        });
+    })
+
+</script>
