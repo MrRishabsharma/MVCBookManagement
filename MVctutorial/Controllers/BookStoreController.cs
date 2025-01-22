@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MVctutorial.Models;
@@ -70,6 +71,44 @@ namespace MVctutorial.Controllers
                 return View(DB.BookDetails.ToList());
             }
         }
+
+        public ActionResult Update(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest); // Handle null id
+            }
+            // Fetch the Bookstore record for the given id
+            var book = DB.BookDetails.FirstOrDefault(b => b.Bookid == id); // Replace 'BookstoreTable' with your actual table
+
+            if (book == null)
+            {
+                return HttpNotFound(); // Handle non-existent book
+            }
+
+            var viewModel = new BookAndProduct
+            {
+                Bookdetail = book, // Populate with the fetched book details
+                productslist = DB.ProductsTable.ToList() // Assuming this is required for dropdowns or other purposes
+            };
+
+            return View(viewModel);
+        }
+
+       public JsonResult Getproduct(string countryID)
+       {
+            var states = DB.ProductVariant.Where(s => s.Productname == countryID).
+                Select(s => new
+                {
+                    Id = s.Productname,
+                    Name = s.ProductVariant
+                }).ToList();
+
+            return Json(states, JsonRequestBehavior.AllowGet);
+       }
+
+
+
 
     }
 }

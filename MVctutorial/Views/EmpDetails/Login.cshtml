@@ -1,0 +1,42 @@
+﻿@model MVctutorial.Models.EmpDetails
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_EmpHeader.cshtml";
+}
+
+<h2>Login</h2>
+
+@using (Html.BeginForm("Login", "EmpDetails", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(model => model.Emp_no, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Emp_no, new { htmlAttributes = new { @class = "control-label col-md-2" } })
+            @Html.ValidationMessageFor(model => model.Emp_no, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Enter the Password", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+
+            @Html.EditorFor(model => model.Emp_phone, new { htmlAttributes = new { @class = "control-label col-md-2" } })
+            @Html.ValidationMessageFor(model => model.Emp_phone, "", new { @class = "text-danger" })
+        </div>
+    </div>
+</div>
+    <button type="submit" class="btn btn-primary">Login</button>
+
+}
+
+@Html.ActionLink("Register", "Create")
+
+
+@if (!string.IsNullOrEmpty(ViewBag.Message))
+{
+    <div class="alert alert-danger">@ViewBag.Message</div>}

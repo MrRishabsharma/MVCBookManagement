@@ -12,58 +12,124 @@
 {
     @Html.AntiForgeryToken()
 
-<div class="form-horizontal">
-    <h4>New Book Sold</h4>
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(model => model.Bookdetail.Bookname, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Bookdetail.Bookname, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Bookdetail.Bookname, "", new { @class = "text-danger" })
+    <div class="form-horizontal">
+        <h4>New Book Sold</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Bookdetail.Bookname, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Bookdetail.Bookname, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Bookdetail.Bookname, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Bookdetail.Author, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownListFor(
-                model => model.Bookdetail.Author,
-                new SelectList(Model.productslist, "ProductID", "Name"),
-                "Select Category",
-                new { @class = "form-control" }
-            )
-            @Html.ValidationMessageFor(model => model.Bookdetail.Bookid, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Bookdetail.Author, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(
+                    model => model.Bookdetail.Author,
+                    new SelectList(Model.productslist, "ProductID", "Name"),
+                    "Select Category",
+                    new { @class = "form-control", id = "CategoryDropdown" }
+                )
+                @Html.ValidationMessageFor(model => model.Bookdetail.Bookid, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Bookdetail.Price, htmlAttributes: new { @class = "control-label col-md-2" })
         <div>
-            @Html.EditorFor(model => model.Bookdetail.Price, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Bookdetail.Price, "", new { @class = "text-danger" })
+            @Html.Label("Product Type", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-mod-10">
+                <select id="Productcategory" class="form-control">
+                </select>
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Bookdetail.Soldate, new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Bookdetail.Soldate, new { htmlAttributes = new { @class = "form-control", type = "date" } })
-            @Html.ValidationMessageFor(model => model.Bookdetail.Soldate, "", new { @class = "text-danger" })
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Bookdetail.Price, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div>
+                @Html.EditorFor(model => model.Bookdetail.Price, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Bookdetail.Price, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
 
-
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Create" class="btn btn-default" />
+        <div class="form-group">
+            @Html.LabelFor(model => model.Bookdetail.Soldate, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Bookdetail.Soldate, new { htmlAttributes = new { @class = "form-control", type = "date" } })
+                @Html.ValidationMessageFor(model => model.Bookdetail.Soldate, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
 
-</div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+
+    </div>
 }
 
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
+
+<script src="~/Scripts/jquery-3.7.1.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/modernizr.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#CategoryDropdown').change(function () {
+            var countryID = $('#CategoryDropdown option:selected').text(); // Get the selected option's text
+            if (countryID) {
+                $.ajax({
+                    url: '/BookStore/Getproduct',
+                    type: 'GET',
+                    data: { countryID: countryID },
+                    success: function (data) {
+                        var statedropdown = $('#Productcategory');
+                        statedropdown.empty();
+                        statedropdown.append('<option value="">Select State</option>');
+                        $.each(data, function (i, state) {
+                            statedropdown.append('<option value="' + state.Id + '">' + state.Name + '</option>');
+                        });
+
+                    },
+                    error: function () {
+                        alert('Error Fetching States.Pleae try Again');
+                    }
+
+
+
+
+
+                });
+
+
+
+
+            } else {
+                $('#Productcategory').empty().append('<option value="">Select State</option>');
+            }
+
+
+
+
+
+
+        })
+
+
+
+
+
+
+
+
+    })
+</script>
 

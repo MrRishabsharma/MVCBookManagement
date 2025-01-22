@@ -16,5 +16,7 @@ namespace MVctutorial.Models
         public DbSet<Bookstore> BookDetails { get; set; }
         public DbSet<Products> ProductsTable { get; set; }
 
+        public DbSet<ProductsDetails> ProductVariant { get; set; }
+
     }
 }

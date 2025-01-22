@@ -7,8 +7,7 @@
 
 <h2>Intial</h2>
 
-@using (Html.BeginForm("Intial", "BookStore", FormMethod.Post))
-{
+
     <div id="btnmaincontent">
         <table border="1" class="table" id="products">
             <tr>
@@ -31,7 +30,7 @@
 
     <br />
     <center>
-        <input TYPE="submit" name="btnSubmit" value="Next" class="clsButton">&nbsp;&nbsp; &nbsp;
+        <input TYPE="submit" name="btnSubmit" id="btnSubmit" value="Next" class="clsButton">&nbsp;&nbsp; &nbsp;
         <input TYPE="reset" name="btnClear" value="Clear" class="clsButton" onclick="this.form.reset(); return false;">&nbsp; &nbsp; &nbsp;
     </center>
 
@@ -39,7 +38,7 @@
 
 
 
-}
+
 <script src="~/Scripts/jquery-3.7.1.js"></script>
 <script src="~/Scripts/bootstrap.min.js"></script>
 <script src="~/Scripts/modernizr.js"></script>
@@ -55,8 +54,17 @@
 
         $("#btnSubmit").click(function ()
         {
-           '@Url.Action("Update","BookStore")?id = ' + document.getElementById("Bookid").value;
-        });
+            var bookId = $("input[name='Bookid']").val();
+            if (bookId) { 
+                var url = '@Url.Action("Update", "BookStore")?id=' + bookId;
+                window.location.href = url; 
+            } else {
+                alert("Please enter a valid Book ID.");
+            }
+             return false; 
+      });
+
+
     })
 
 </script>

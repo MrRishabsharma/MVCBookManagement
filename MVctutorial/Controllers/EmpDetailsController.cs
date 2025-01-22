@@ -55,6 +55,33 @@ namespace MVctutorial.Controllers
             }
 
         }
+        public ActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult login(int Emp_no,string Emp_phone)
+        {
+            var empexist = DB.EMPDetails.FirstOrDefault(s => s.Emp_no == Emp_no && s.Emp_phone == Emp_phone);
+            if (empexist != null)
+            {
+                Session["Username"] = empexist.Emp_no;
+                Session["Role"] = empexist.Emp_name;
+                return RedirectToAction("Index", "BookStore");
+            }
+
+            ModelState.AddModelError("", "Invalid User Please register or check password or username");
+            
+
+            return View();
+
+        }
+
+
+
+
 
 
 
